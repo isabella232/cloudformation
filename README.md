@@ -1,6 +1,6 @@
 # ethvault/cloudformation
 
-Useful CloudFormation templates for deploying EthVault infrastructure.
+Useful CloudFormation templates for deploying Ethvault infrastructure.
 
 ## site.template.json
 
