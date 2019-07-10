@@ -22,7 +22,7 @@
     "ContentSecurityPolicyHeader": {
       "Type": "String",
       "AllowedPattern": "^[^\"]+$",
-      "Default": "default-src 'none'; frame-ancestors 'none'; font-src 'self' fonts.gstatic.com; img-src 'self' www.google-analytics.com; script-src 'self' www.google-analytics.com; style-src 'self' fonts.googleapis.com",
+      "Default": "frame-ancestors 'none'; default-src https:",
       "Description": "The value of the Content-Security-Policy header to be sent in the response."
     }
   },
@@ -149,6 +149,7 @@
     },
     "AddSecurityHeadersLambdaVersion": {
       "Type": "AWS::Lambda::Version",
+      "Version": 2,
       "Properties": {
         "Description": "The single version of this lambda that is used",
         "FunctionName": {
