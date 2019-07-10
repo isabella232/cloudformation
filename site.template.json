@@ -92,7 +92,7 @@
     },
     "AddSecurityHeadersLambda": {
       "Type": "AWS::Lambda::Function",
-      "Version": 3,
+      "Version": 6,
       "Properties": {
         "Description": "Set security headers on CloudFront distribution response",
         "Runtime": "nodejs8.10",
@@ -117,7 +117,7 @@
                 {
                   "Ref": "ContentSecurityPolicyHeader"
                 },
-                ",\" }];",
+                "\" }];",
                 "  headers['x-content-type-options'] = [{ key: 'X-Content-Type-Options', value: 'nosniff' }];",
                 {
                   "Fn::If": [
@@ -149,7 +149,7 @@
     },
     "AddSecurityHeadersLambdaVersion": {
       "Type": "AWS::Lambda::Version",
-      "Version": 2,
+      "Version": 7,
       "Properties": {
         "Description": "The single version of this lambda that is used",
         "FunctionName": {
