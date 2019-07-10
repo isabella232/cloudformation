@@ -10,13 +10,13 @@
     },
     "XFrameOptionsHeader": {
       "Type": "String",
-      "AllowedPattern": "^(deny|allow|(allow-from .+))$",
+      "AllowedPattern": "^(deny|sameorigin|allow from all)$",
       "Default": "deny",
       "Description": "The value of the X-Frame-Options header to be sent in the response.",
       "AllowedValues": [
         "deny",
         "sameorigin",
-        "allow-from https://app.ethvault.dev/"
+        "allow from all"
       ]
     },
     "ContentSecurityPolicyHeader": {
@@ -24,6 +24,16 @@
       "AllowedPattern": "^[^\"]+$",
       "Default": "default-src 'none'; frame-ancestors 'none'; font-src 'self' fonts.gstatic.com; img-src 'self' www.google-analytics.com; script-src 'self' www.google-analytics.com; style-src 'self' fonts.googleapis.com; object-src 'none'",
       "Description": "The value of the Content-Security-Policy header to be sent in the response."
+    }
+  },
+  "Conditions": {
+    "XFrameOptionsHeaderAllowFromAll": {
+      "Fn::Equals": [
+        {
+          "Ref": "XFrameOptionsHeader"
+        },
+        "allow from all"
+      ]
     }
   },
   "Outputs": {
@@ -82,7 +92,7 @@
     },
     "AddSecurityHeadersLambda": {
       "Type": "AWS::Lambda::Function",
-      "Version": 2,
+      "Version": 3,
       "Properties": {
         "Description": "Set security headers on CloudFront distribution response",
         "Runtime": "nodejs8.10",
@@ -109,11 +119,24 @@
                 },
                 ",\" }];",
                 "  headers['x-content-type-options'] = [{ key: 'X-Content-Type-Options', value: 'nosniff' }];",
-                "  headers['x-frame-options'] = [{ key: 'X-Frame-Options', value: '",
                 {
-                  "Ref": "XFrameOptionsHeader"
+                  "Fn::If": [
+                    "XFrameOptionsHeaderAllowFromAll",
+                    "",
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "  headers['x-frame-options'] = [{ key: 'X-Frame-Options', value: '",
+                          {
+                            "Ref": "XFrameOptionsHeader"
+                          },
+                          "' }];"
+                        ]
+                      ]
+                    }
+                  ]
                 },
-                "' }];",
                 "  headers['x-xss-protection'] = [{ key: 'X-XSS-Protection', value: '1; mode=block' }];",
                 "  headers['referrer-policy'] = [{ key: 'Referrer-Policy', value: 'same-origin' }];",
                 "  callback(null, response);",
