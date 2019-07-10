@@ -92,7 +92,6 @@
     },
     "AddSecurityHeadersLambda": {
       "Type": "AWS::Lambda::Function",
-      "Version": 6,
       "Properties": {
         "Description": "Set security headers on CloudFront distribution response",
         "Runtime": "nodejs8.10",
@@ -147,9 +146,8 @@
         }
       }
     },
-    "AddSecurityHeadersLambdaVersion": {
+    "AddSecurityHeadersLambdaVersion1562721393": {
       "Type": "AWS::Lambda::Version",
-      "Version": 7,
       "Properties": {
         "Description": "The single version of this lambda that is used",
         "FunctionName": {
@@ -435,7 +433,7 @@
               {
                 "EventType": "origin-response",
                 "LambdaFunctionARN": {
-                  "Ref": "AddSecurityHeadersLambdaVersion"
+                  "Ref": "AddSecurityHeadersLambdaVersion2"
                 }
               }
             ],
