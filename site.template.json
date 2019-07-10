@@ -146,7 +146,7 @@
         }
       }
     },
-    "AddSecurityHeadersLambdaVersion20190710C": {
+    "AddSecurityHeadersLambdaVersion20190710D": {
       "Type": "AWS::Lambda::Version",
       "Properties": {
         "Description": "The single version of this lambda that is used",
@@ -433,7 +433,7 @@
               {
                 "EventType": "origin-response",
                 "LambdaFunctionARN": {
-                  "Ref": "AddSecurityHeadersLambdaVersion20190710C"
+                  "Ref": "AddSecurityHeadersLambdaVersion20190710D"
                 }
               }
             ],
