@@ -433,7 +433,7 @@
               {
                 "EventType": "origin-response",
                 "LambdaFunctionARN": {
-                  "Ref": "AddSecurityHeadersLambdaVersion2"
+                  "Ref": "AddSecurityHeadersLambdaVersion1562721393"
                 }
               }
             ],
