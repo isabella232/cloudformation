@@ -1,0 +1,20 @@
+{
+  "name": "@ethvault/cloudformation",
+  "private": true,
+  "version": "0.1.0",
+  "description": "CloudFormation templates for Ethvault infrastructure",
+  "scripts": {
+    "deploy-app": "./scripts/deploy-app-ethvault-dev.sh",
+    "deploy-embedded-wallet": "./scripts/deploy-embedded-wallet-ethvault-dev.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ethvault/cloudformation.git"
+  },
+  "author": "Moody Salem <moody.salem@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ethvault/cloudformation/issues"
+  },
+  "homepage": "https://github.com/ethvault/cloudformation#readme"
+}

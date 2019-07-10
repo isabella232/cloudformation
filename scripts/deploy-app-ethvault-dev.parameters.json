@@ -1,14 +1,14 @@
 [
-    {
-        "ParameterKey": "ContentSecurityPolicy",
-        "ParameterValue": "default-src 'none'; script-src 'self' www.google-analytics.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src 'self' data: www.google-analytics.com; font-src 'self' data: fonts.gstatic.com; connect-src api.ethvault.dev; frame-src https:; frame-ancestors 'none'; form-action 'self'; block-all-mixed-content; sandbox allow-scripts allow-top-navigation; base-uri 'none'; manifest-src 'self'; referrer no-referrer"
-    },
-    {
-        "ParameterKey": "XFrameOptions",
-        "ParameterValue": "deny"
-    },
-    {
-        "ParameterKey": "SiteDomainName",
-        "ParameterValue": "app.ethvault.dev"
-    }
+  {
+    "ParameterKey": "ContentSecurityPolicy",
+    "ParameterValue": "default-src 'none'; frame-ancestors 'none'; script-src 'self' www.google-analytics.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src 'self' data: www.google-analytics.com; font-src 'self' data: fonts.gstatic.com; connect-src api.ethvault.dev; frame-src https:; form-action 'self'; block-all-mixed-content; manifest-src 'self'"
+  },
+  {
+    "ParameterKey": "XFrameOptions",
+    "ParameterValue": "deny"
+  },
+  {
+    "ParameterKey": "SiteDomainName",
+    "ParameterValue": "app.ethvault.dev"
+  }
 ]
