@@ -22,7 +22,7 @@
     "ContentSecurityPolicyHeader": {
       "Type": "String",
       "AllowedPattern": "^[^\"]+$",
-      "Default": "default-src 'none'; frame-ancestors 'none'; font-src 'self' fonts.gstatic.com; img-src 'self' www.google-analytics.com; script-src 'self' www.google-analytics.com; style-src 'self' fonts.googleapis.com; object-src 'none'",
+      "Default": "default-src 'none'; frame-ancestors 'none'; font-src 'self' fonts.gstatic.com; img-src 'self' www.google-analytics.com; script-src 'self' www.google-analytics.com; style-src 'self' fonts.googleapis.com",
       "Description": "The value of the Content-Security-Policy header to be sent in the response."
     }
   },
