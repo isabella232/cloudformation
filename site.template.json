@@ -22,7 +22,7 @@
     "ContentSecurityPolicy": {
       "Type": "String",
       "AllowedPattern": "^[^\"]+$",
-      "Default": "frame-ancestors 'none'; default-src https: data:; script-src 'self' www.google-analytics.com",
+      "Default": "frame-ancestors 'none'; default-src https: data:; script-src 'self' www.google-analytics.com; style-src https: data: 'unsafe-inline'",
       "Description": "The value of the Content-Security-Policy header to be sent in the response."
     }
   },
