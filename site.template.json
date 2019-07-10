@@ -8,7 +8,7 @@
       "Default": "example.ethvault.dev",
       "Description": "Enter the domain name for the site"
     },
-    "XFrameOptionsHeader": {
+    "XFrameOptions": {
       "Type": "String",
       "AllowedPattern": "^(deny|sameorigin|allow from all)$",
       "Default": "deny",
@@ -19,18 +19,18 @@
         "allow from all"
       ]
     },
-    "ContentSecurityPolicyHeader": {
+    "ContentSecurityPolicy": {
       "Type": "String",
       "AllowedPattern": "^[^\"]+$",
-      "Default": "frame-ancestors 'none'; default-src https:",
+      "Default": "frame-ancestors 'none'; default-src https: data:; script-src 'self' www.google-analytics.com",
       "Description": "The value of the Content-Security-Policy header to be sent in the response."
     }
   },
   "Conditions": {
-    "XFrameOptionsHeaderAllowFromAll": {
+    "XFrameOptionsAllowFromAll": {
       "Fn::Equals": [
         {
-          "Ref": "XFrameOptionsHeader"
+          "Ref": "XFrameOptions"
         },
         "allow from all"
       ]
@@ -114,13 +114,13 @@
                 "  headers['strict-transport-security'] = [{ key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubdomains; preload' }];",
                 "  headers['content-security-policy'] = [{ key: 'Content-Security-Policy', value: \"",
                 {
-                  "Ref": "ContentSecurityPolicyHeader"
+                  "Ref": "ContentSecurityPolicy"
                 },
                 "\" }];",
                 "  headers['x-content-type-options'] = [{ key: 'X-Content-Type-Options', value: 'nosniff' }];",
                 {
                   "Fn::If": [
-                    "XFrameOptionsHeaderAllowFromAll",
+                    "XFrameOptionsAllowFromAll",
                     "",
                     {
                       "Fn::Join": [
@@ -128,7 +128,7 @@
                         [
                           "  headers['x-frame-options'] = [{ key: 'X-Frame-Options', value: '",
                           {
-                            "Ref": "XFrameOptionsHeader"
+                            "Ref": "XFrameOptions"
                           },
                           "' }];"
                         ]
