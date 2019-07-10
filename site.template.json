@@ -7,6 +7,23 @@
       "Type": "String",
       "Default": "example.ethvault.dev",
       "Description": "Enter the domain name for the site"
+    },
+    "XFrameOptionsHeader": {
+      "Type": "String",
+      "AllowedPattern": "^(deny|allow|(allow-from .+))$",
+      "Default": "deny",
+      "Description": "The value of the X-Frame-Options header to be sent in the response.",
+      "AllowedValues": [
+        "deny",
+        "sameorigin",
+        "allow-from https://app.ethvault.dev/"
+      ]
+    },
+    "ContentSecurityPolicyHeader": {
+      "Type": "String",
+      "AllowedPattern": "^[^\"]+$",
+      "Default": "default-src 'none'; frame-ancestors 'none'; font-src 'self' fonts.gstatic.com; img-src 'self' www.google-analytics.com; script-src 'self' www.google-analytics.com; style-src 'self' fonts.googleapis.com; object-src 'none'",
+      "Description": "The value of the Content-Security-Policy header to be sent in the response."
     }
   },
   "Outputs": {
@@ -27,6 +44,98 @@
     }
   },
   "Resources": {
+    "LambdaCloudFrontEdgeExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "edgelambda.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Path": "/",
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        ]
+      }
+    },
+    "AddSecurityHeadersLambda": {
+      "Type": "AWS::Lambda::Function",
+      "Version": 2,
+      "Properties": {
+        "Description": "Set security headers on CloudFront distribution response",
+        "Runtime": "nodejs8.10",
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaCloudFrontEdgeExecutionRole",
+            "Arn"
+          ]
+        },
+        "Code": {
+          "ZipFile": {
+            "Fn::Join": [
+              "",
+              [
+                "'use strict';",
+                "exports.handler = (event, context, callback) => {",
+                "  const response = event.Records[0].cf.response;",
+                "  const headers = response.headers;",
+                "  headers['strict-transport-security'] = [{ key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubdomains; preload' }];",
+                "  headers['content-security-policy'] = [{ key: 'Content-Security-Policy', value: \"",
+                {
+                  "Ref": "ContentSecurityPolicyHeader"
+                },
+                ",\" }];",
+                "  headers['x-content-type-options'] = [{ key: 'X-Content-Type-Options', value: 'nosniff' }];",
+                "  headers['x-frame-options'] = [{ key: 'X-Frame-Options', value: '",
+                {
+                  "Ref": "XFrameOptionsHeader"
+                },
+                "' }];",
+                "  headers['x-xss-protection'] = [{ key: 'X-XSS-Protection', value: '1; mode=block' }];",
+                "  headers['referrer-policy'] = [{ key: 'Referrer-Policy', value: 'same-origin' }];",
+                "  callback(null, response);",
+                "};"
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "AddSecurityHeadersLambdaVersion": {
+      "Type": "AWS::Lambda::Version",
+      "Properties": {
+        "Description": "The single version of this lambda that is used",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AddSecurityHeadersLambda",
+            "Arn"
+          ]
+        }
+      }
+    },
     "DeploymentUser": {
       "Type": "AWS::IAM::User",
       "Description": "The user that will be used to deploy to the assets bucket",
@@ -297,6 +406,14 @@
             "AllowedMethods": [
               "GET",
               "HEAD"
+            ],
+            "LambdaFunctionAssociations": [
+              {
+                "EventType": "origin-response",
+                "LambdaFunctionARN": {
+                  "Ref": "AddSecurityHeadersLambdaVersion"
+                }
+              }
             ],
             "ForwardedValues": {
               "QueryString": false
