@@ -158,7 +158,7 @@
                 "let configPromise = null;",
                 "function getConfig() {",
                 "  return configPromise || ",
-                "    (configPromise = ssm.getParameter({ Name: paramName }).promise().then(data => JSON.parse(data.Value)).catch(error => {config = null; throw error;}));",
+                "    (configPromise = ssm.getParameter({ Name: paramName }).promise().then(data => JSON.parse(data.Value)).catch(error => {configPromise = null; console.error(error); throw error;}));",
                 "};",
                 "exports.handler = (event, context, callback) => {",
                 "  const response = event.Records[0].cf.response;",
@@ -172,7 +172,7 @@
         }
       }
     },
-    "AddSecurityHeadersLambdaVersion20190711A": {
+    "AddSecurityHeadersLambdaVersion20190711B": {
       "Type": "AWS::Lambda::Version",
       "Properties": {
         "Description": "The single version of this lambda that is ever deployed. Lambda sets headers based on SSM Parameter Store.",
@@ -459,7 +459,7 @@
               {
                 "EventType": "origin-response",
                 "LambdaFunctionARN": {
-                  "Ref": "AddSecurityHeadersLambdaVersion20190711A"
+                  "Ref": "AddSecurityHeadersLambdaVersion20190711B"
                 }
               }
             ],
