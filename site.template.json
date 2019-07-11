@@ -155,10 +155,14 @@
                 {
                   "Fn::Sub": "const paramName = \"${HeaderConfigurationParameter}\";"
                 },
-                "const configPromise = ssm.getParameter({ Name: paramName }).promise().then(data => JSON.parse(data.Value));",
+                "let configPromise = null;",
+                "function getConfig() {",
+                "  return configPromise || ",
+                "    (configPromise = ssm.getParameter({ Name: paramName }).promise().then(data => JSON.parse(data.Value)).catch(error => {config = null; throw error;}));",
+                "};",
                 "exports.handler = (event, context, callback) => {",
                 "  const response = event.Records[0].cf.response;",
-                "  configPromise.then(config => {",
+                "  getConfig().then(config => {",
                 "    Object.keys(config).forEach(headerName => config[headerName] === '' ? null : response.headers[headerName.toLowerCase()] = [{key: headerName, value: config[headerName]}]);",
                 "  }).then(() => callback(null, response)).catch(error => callback(error, null));",
                 "};"
@@ -168,7 +172,7 @@
         }
       }
     },
-    "AddSecurityHeadersLambdaVersion": {
+    "AddSecurityHeadersLambdaVersion20190711A": {
       "Type": "AWS::Lambda::Version",
       "Properties": {
         "Description": "The single version of this lambda that is ever deployed. Lambda sets headers based on SSM Parameter Store.",
@@ -455,7 +459,7 @@
               {
                 "EventType": "origin-response",
                 "LambdaFunctionARN": {
-                  "Ref": "AddSecurityHeadersLambdaVersion"
+                  "Ref": "AddSecurityHeadersLambdaVersion20190711A"
                 }
               }
             ],
