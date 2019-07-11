@@ -1,7 +1,7 @@
 #!/bin/bash
 
 aws cloudformation update-stack --region us-east-1 \
-    --stack-name app-ethvault-dev-stack \
+    --stack-name ethvault-xyz \
     --template-body file://site.template.json \
-    --parameters file://scripts/deploy-app-ethvault-dev.parameters.json \
+    --parameters file://scripts/deploy-site.parameters.json \
     --capabilities CAPABILITY_IAM

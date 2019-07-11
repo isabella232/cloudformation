@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "ContentSecurityPolicy",
+    "ParameterValue": "default-src 'none'; frame-ancestors 'none'; script-src 'self' www.google-analytics.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src 'self' data: www.google-analytics.com; font-src 'self' data: fonts.gstatic.com; connect-src api.ethvault.xyz https://*.infura.io; frame-src https:; form-action 'self'; block-all-mixed-content; manifest-src 'self'"
+  },
+  {
+    "ParameterKey": "XFrameOptions",
+    "ParameterValue": "deny"
+  },
+  {
+    "ParameterKey": "SiteDomainName",
+    "ParameterValue": "ethvault.xyz"
+  }
+]

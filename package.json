@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "CloudFormation templates for Ethvault infrastructure",
   "scripts": {
-    "deploy-app": "./scripts/deploy-app-ethvault-dev.sh",
+    "deploy-site": "./scripts/deploy-site.sh",
     "deploy-embedded-wallet": "./scripts/deploy-embedded-wallet-ethvault-dev.sh"
   },
   "repository": {
