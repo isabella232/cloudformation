@@ -158,7 +158,7 @@
                 "let configPromise = null;",
                 "function getConfig() {",
                 "  return configPromise || ",
-                "    (configPromise = ssm.getParameter({ Name: paramName }).promise().then(data => JSON.parse(data.Value)).catch(error => {configPromise = null; console.error(error); throw error;}));",
+                "    (configPromise = ssm.getParameter({ Name: paramName }).promise().then(data => JSON.parse(data.Parameter.Value)).catch(error => {configPromise = null; console.error(error); throw error;}));",
                 "};",
                 "exports.handler = (event, context, callback) => {",
                 "  const response = event.Records[0].cf.response;",
