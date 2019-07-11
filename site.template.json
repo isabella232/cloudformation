@@ -172,7 +172,7 @@
         }
       }
     },
-    "AddSecurityHeadersLambdaVersion20190711B": {
+    "AddSecurityHeadersLambdaVersion20190711C": {
       "Type": "AWS::Lambda::Version",
       "Properties": {
         "Description": "The single version of this lambda that is ever deployed. Lambda sets headers based on SSM Parameter Store.",
@@ -459,7 +459,7 @@
               {
                 "EventType": "origin-response",
                 "LambdaFunctionARN": {
-                  "Ref": "AddSecurityHeadersLambdaVersion20190711B"
+                  "Ref": "AddSecurityHeadersLambdaVersion20190711C"
                 }
               }
             ],
