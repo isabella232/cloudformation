@@ -10,13 +10,13 @@
     },
     "XFrameOptions": {
       "Type": "String",
-      "AllowedPattern": "^(deny|sameorigin|allow from all)$",
+      "AllowedPattern": "^(deny|sameorigin)?$",
       "Default": "deny",
       "Description": "The value of the X-Frame-Options header to be sent in the response.",
       "AllowedValues": [
         "deny",
         "sameorigin",
-        "allow from all"
+        ""
       ]
     },
     "ContentSecurityPolicy": {
@@ -24,16 +24,6 @@
       "AllowedPattern": "^[^\"]+$",
       "Default": "frame-ancestors 'none'; default-src https: data:; script-src 'self' www.google-analytics.com; style-src https: data: 'unsafe-inline'",
       "Description": "The value of the Content-Security-Policy header to be sent in the response."
-    }
-  },
-  "Conditions": {
-    "XFrameOptionsAllowFromAll": {
-      "Fn::Equals": [
-        {
-          "Ref": "XFrameOptions"
-        },
-        "allow from all"
-      ]
     }
   },
   "Outputs": {
@@ -87,7 +77,59 @@
         "Path": "/",
         "ManagedPolicyArns": [
           "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        ],
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ssm:GetParameter"
+                  ],
+                  "Resource": {
+                    "Fn::Sub": "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${HeaderConfigurationParameter}"
+                  }
+                }
+              ]
+            },
+            "PolicyName": "AccessHeaderConfigurationParameter"
+          }
         ]
+      }
+    },
+    "HeaderConfigurationParameter": {
+      "Type": "AWS::SSM::Parameter",
+      "Properties": {
+        "Description": "Parameter containing JSON representation of all the headers to set on the response",
+        "Type": "String",
+        "Value": {
+          "Fn::Join": [
+            "",
+            [
+              "{",
+              {
+                "Fn::Join": [
+                  ",",
+                  [
+                    "\"Referrer-Policy\":\"same-origin\"",
+                    "\"X-Content-Type-Options\":\"nosniff\"",
+                    "\"X-XSS-Protection\":\"1; mode=block\"",
+                    "\"Strict-Transport-Security\":\"max-age=31536000; includeSubdomains; preload\"",
+                    {
+                      "Fn::Sub": "\"Content-Security-Policy\":\"${ContentSecurityPolicy}\""
+                    },
+                    {
+                      "Fn::Sub": "\"X-Frame-Options\":\"${XFrameOptions}\""
+                    }
+                  ]
+                ]
+              },
+              "}"
+            ]
+          ]
+        }
       }
     },
     "AddSecurityHeadersLambda": {
@@ -108,37 +150,17 @@
               "",
               [
                 "'use strict';",
+                "const AWS = require('aws-sdk');",
+                "const ssm = new AWS.SSM();",
+                {
+                  "Fn::Sub": "const paramName = \"${HeaderConfigurationParameter}\";"
+                },
+                "const configPromise = ssm.getParameter({ Name: paramName }).promise().then(data => JSON.parse(data.Value));",
                 "exports.handler = (event, context, callback) => {",
                 "  const response = event.Records[0].cf.response;",
-                "  const headers = response.headers;",
-                "  headers['strict-transport-security'] = [{ key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubdomains; preload' }];",
-                "  headers['content-security-policy'] = [{ key: 'Content-Security-Policy', value: \"",
-                {
-                  "Ref": "ContentSecurityPolicy"
-                },
-                "\" }];",
-                "  headers['x-content-type-options'] = [{ key: 'X-Content-Type-Options', value: 'nosniff' }];",
-                {
-                  "Fn::If": [
-                    "XFrameOptionsAllowFromAll",
-                    "",
-                    {
-                      "Fn::Join": [
-                        "",
-                        [
-                          "  headers['x-frame-options'] = [{ key: 'X-Frame-Options', value: '",
-                          {
-                            "Ref": "XFrameOptions"
-                          },
-                          "' }];"
-                        ]
-                      ]
-                    }
-                  ]
-                },
-                "  headers['x-xss-protection'] = [{ key: 'X-XSS-Protection', value: '1; mode=block' }];",
-                "  headers['referrer-policy'] = [{ key: 'Referrer-Policy', value: 'same-origin' }];",
-                "  callback(null, response);",
+                "  configPromise.then(config => {",
+                "    Object.keys(config).forEach(headerName => config[headerName] === '' ? null : response.headers[headerName.toLowerCase()] = [{key: headerName, value: config[headerName]}]);",
+                "  }).then(() => callback(null, response)).catch(error => callback(error, null));",
                 "};"
               ]
             ]
@@ -146,10 +168,10 @@
         }
       }
     },
-    "AddSecurityHeadersLambdaVersion20190710E": {
+    "AddSecurityHeadersLambdaVersion": {
       "Type": "AWS::Lambda::Version",
       "Properties": {
-        "Description": "The single version of this lambda that is used",
+        "Description": "The single version of this lambda that is ever deployed. Lambda sets headers based on SSM Parameter Store.",
         "FunctionName": {
           "Fn::GetAtt": [
             "AddSecurityHeadersLambda",
@@ -433,7 +455,7 @@
               {
                 "EventType": "origin-response",
                 "LambdaFunctionARN": {
-                  "Ref": "AddSecurityHeadersLambdaVersion20190710E"
+                  "Ref": "AddSecurityHeadersLambdaVersion"
                 }
               }
             ],

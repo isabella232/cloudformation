@@ -5,7 +5,7 @@
   },
   {
     "ParameterKey": "XFrameOptions",
-    "ParameterValue": "allow from all"
+    "ParameterValue": ""
   },
   {
     "ParameterKey": "SiteDomainName",
