@@ -1,7 +1,7 @@
 {
   "name": "@ethvault/cloudformation",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CloudFormation templates for Ethvault infrastructure",
   "scripts": {
     "deploy-site": "./scripts/deploy-site.sh",
