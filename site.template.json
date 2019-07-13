@@ -151,7 +151,9 @@
               [
                 "'use strict';",
                 "const AWS = require('aws-sdk');",
-                "const ssm = new AWS.SSM();",
+                {
+                  "Fn::Sub": "const ssm = new AWS.SSM({ region: '${AWS::Region}' });"
+                },
                 {
                   "Fn::Sub": "const paramName = \"${HeaderConfigurationParameter}\";"
                 },
@@ -172,7 +174,7 @@
         }
       }
     },
-    "AddSecurityHeadersLambdaVersion20190711C": {
+    "AddSecurityHeadersLambdaVersion20190713": {
       "Type": "AWS::Lambda::Version",
       "Properties": {
         "Description": "The single version of this lambda that is ever deployed. Lambda sets headers based on SSM Parameter Store.",
@@ -459,7 +461,7 @@
               {
                 "EventType": "origin-response",
                 "LambdaFunctionARN": {
-                  "Ref": "AddSecurityHeadersLambdaVersion20190711C"
+                  "Ref": "AddSecurityHeadersLambdaVersion20190713"
                 }
               }
             ],
