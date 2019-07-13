@@ -4,6 +4,10 @@ Useful CloudFormation templates for deploying Ethvault infrastructure.
 
 ## site.template.json
 
-This is for deploying a static website. It creates a bucket, a CDN distribution, an ACM certificate,
-and an IAM user for deploying to the bucket. Any other user is not allowed to deploy to the bucket, and only the CloudFront user and the root account can manage the bucket. This is used
-in deploying demo websites as well as the main [https://app.ethvault.dev](https://app.ethvault.dev).
+Deploys a static website. Creates an S3 bucket, a CloudFront distribution, an ACM certificate,
+an IAM user for deploying to the bucket, credentials for CI deployments, and Lambda@Edge for security headers.
+
+Only the single IAM user created by the template is allowed to put objects in the bucket, 
+and only the CloudFront user and the root account can manage the bucket.
+
+Also adds headers for security via Lambda@Edge. The content security policy and x-frame-options headers can be specified as parameters to the template.
