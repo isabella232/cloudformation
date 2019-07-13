@@ -77,59 +77,7 @@
         "Path": "/",
         "ManagedPolicyArns": [
           "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-        ],
-        "Policies": [
-          {
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "ssm:GetParameter"
-                  ],
-                  "Resource": {
-                    "Fn::Sub": "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${HeaderConfigurationParameter}"
-                  }
-                }
-              ]
-            },
-            "PolicyName": "AccessHeaderConfigurationParameter"
-          }
         ]
-      }
-    },
-    "HeaderConfigurationParameter": {
-      "Type": "AWS::SSM::Parameter",
-      "Properties": {
-        "Description": "Parameter containing JSON representation of all the headers to set on the response",
-        "Type": "String",
-        "Value": {
-          "Fn::Join": [
-            "",
-            [
-              "{",
-              {
-                "Fn::Join": [
-                  ",",
-                  [
-                    "\"Referrer-Policy\":\"same-origin\"",
-                    "\"X-Content-Type-Options\":\"nosniff\"",
-                    "\"X-XSS-Protection\":\"1; mode=block\"",
-                    "\"Strict-Transport-Security\":\"max-age=31536000; includeSubdomains; preload\"",
-                    {
-                      "Fn::Sub": "\"Content-Security-Policy\":\"${ContentSecurityPolicy}\""
-                    },
-                    {
-                      "Fn::Sub": "\"X-Frame-Options\":\"${XFrameOptions}\""
-                    }
-                  ]
-                ]
-              },
-              "}"
-            ]
-          ]
-        }
       }
     },
     "AddSecurityHeadersLambda": {
@@ -150,23 +98,38 @@
               "",
               [
                 "'use strict';",
-                "const AWS = require('aws-sdk');",
+                "const headers = ",
                 {
-                  "Fn::Sub": "const ssm = new AWS.SSM({ region: '${AWS::Region}' });"
+                  "Fn::Join": [
+                    "",
+                    [
+                      "{",
+                      {
+                        "Fn::Join": [
+                          ",",
+                          [
+                            "\"Referrer-Policy\":\"same-origin\"",
+                            "\"X-Content-Type-Options\":\"nosniff\"",
+                            "\"X-XSS-Protection\":\"1; mode=block\"",
+                            "\"Strict-Transport-Security\":\"max-age=31536000; includeSubdomains; preload\"",
+                            {
+                              "Fn::Sub": "\"Content-Security-Policy\":\"${ContentSecurityPolicy}\""
+                            },
+                            {
+                              "Fn::Sub": "\"X-Frame-Options\":\"${XFrameOptions}\""
+                            }
+                          ]
+                        ]
+                      },
+                      "}"
+                    ]
+                  ]
                 },
-                {
-                  "Fn::Sub": "const paramName = \"${HeaderConfigurationParameter}\";"
-                },
-                "let configPromise = null;",
-                "function getConfig() {",
-                "  return configPromise || ",
-                "    (configPromise = ssm.getParameter({ Name: paramName }).promise().then(data => JSON.parse(data.Parameter.Value)).catch(error => {configPromise = null; console.error(error); throw error;}));",
-                "};",
+                ";",
                 "exports.handler = (event, context, callback) => {",
                 "  const response = event.Records[0].cf.response;",
-                "  getConfig().then(config => {",
-                "    Object.keys(config).forEach(headerName => config[headerName] === '' ? null : response.headers[headerName.toLowerCase()] = [{key: headerName, value: config[headerName]}]);",
-                "  }).then(() => callback(null, response)).catch(error => callback(error, null));",
+                "  Object.keys(headers).forEach(headerName => config[headerName] === '' ? null : response.headers[headerName.toLowerCase()] = [{key: headerName, value: config[headerName]}]);",
+                "  callback(null, response);",
                 "};"
               ]
             ]
@@ -174,10 +137,10 @@
         }
       }
     },
-    "AddSecurityHeadersLambdaVersion20190713": {
+    "AddSecurityHeadersLambdaVersion20190713B": {
       "Type": "AWS::Lambda::Version",
       "Properties": {
-        "Description": "The single version of this lambda that is ever deployed. Lambda sets headers based on SSM Parameter Store.",
+        "Description": "The deployed version of the lambda",
         "FunctionName": {
           "Fn::GetAtt": [
             "AddSecurityHeadersLambda",
@@ -461,7 +424,7 @@
               {
                 "EventType": "origin-response",
                 "LambdaFunctionARN": {
-                  "Ref": "AddSecurityHeadersLambdaVersion20190713"
+                  "Ref": "AddSecurityHeadersLambdaVersion20190713B"
                 }
               }
             ],
