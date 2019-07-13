@@ -128,7 +128,10 @@
                 ";",
                 "exports.handler = (event, context, callback) => {",
                 "  const response = event.Records[0].cf.response;",
-                "  Object.keys(headers).forEach(headerName => config[headerName] === '' ? null : response.headers[headerName.toLowerCase()] = [{key: headerName, value: config[headerName]}]);",
+                "  Object.keys(headers).forEach(headerName => ",
+                "    (typeof headers[headerName] === 'string' && headers[headerName].trim().length > 0) ? ",
+                "      response.headers[headerName.toLowerCase()] = [{key: headerName, value: headers[headerName]}] :",
+                "      null);",
                 "  callback(null, response);",
                 "};"
               ]
