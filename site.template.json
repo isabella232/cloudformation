@@ -141,7 +141,7 @@
         }
       }
     },
-    "AddSecurityHeadersLambdaVersion20190713B": {
+    "AddSecurityHeadersLambdaVersion20190718A": {
       "Type": "AWS::Lambda::Version",
       "Properties": {
         "Description": "The deployed version of the lambda",
