@@ -1,4 +1,4 @@
-# ethvault/cloudformation
+# @ethvault/cloudformation
 
 Useful CloudFormation templates for deploying Ethvault infrastructure.
 
