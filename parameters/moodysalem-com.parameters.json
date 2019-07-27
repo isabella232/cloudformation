@@ -18,5 +18,9 @@
   {
     "ParameterKey": "LambdaRedeploymentToggle",
     "ParameterValue": "A"
+  },
+  {
+    "ParameterKey": "LambdaCodeVersion",
+    "ParameterValue": "2019-07-27"
   }
 ]

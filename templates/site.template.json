@@ -41,6 +41,12 @@
       ],
       "Default": "A",
       "Description": "Toggle this parameter between A/B to redeploy the latest version of the lambda to CloudFront, e.g. to effect a header change"
+    },
+    "LambdaCodeVersion": {
+      "Type": "String",
+      "AllowedPattern": "^[^\"]+$",
+      "Default": "",
+      "Description": "An arbitrary string used to modify the resulting lambda code to produce an insignificantly different lambda version code hash. Recommend date in ISO format, e.g. 2019-07-27"
     }
   },
   "Conditions": {
@@ -141,6 +147,9 @@
               "",
               [
                 "'use strict';",
+                {
+                  "Fn::Sub": "const LAMBDA_CODE_VERSION = \"${LambdaCodeVersion}\";"
+                },
                 "const headers = ",
                 {
                   "Fn::Join": [
