@@ -5,13 +5,12 @@
     "SiteDomainName": {
       "AllowedPattern": "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$",
       "Type": "String",
-      "Default": "ethvault.xyz",
       "Description": "Enter the domain name for the site"
     },
     "XFrameOptions": {
       "Type": "String",
       "AllowedPattern": "^(deny|sameorigin)?$",
-      "Default": "deny",
+      "Default": "",
       "Description": "The value of the X-Frame-Options header to be sent in the response.",
       "AllowedValues": [
         "deny",
@@ -22,7 +21,7 @@
     "ContentSecurityPolicy": {
       "Type": "String",
       "AllowedPattern": "^[^\"]+$",
-      "Default": "frame-ancestors 'none'; default-src https: data:; script-src 'self' www.google-analytics.com; style-src https: data: 'unsafe-inline'",
+      "Default": "default-src '*'",
       "Description": "The value of the Content-Security-Policy header to be sent in the response."
     }
   },
