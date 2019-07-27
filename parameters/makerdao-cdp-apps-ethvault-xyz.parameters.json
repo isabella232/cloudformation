@@ -1,0 +1,26 @@
+[
+  {
+    "ParameterKey": "ContentSecurityPolicy",
+    "ParameterValue": "frame-ancestors https://ethvault.xyz http://localhost:*"
+  },
+  {
+    "ParameterKey": "XFrameOptions",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "SiteDomainName",
+    "ParameterValue": "makerdao-cdp.apps.ethvault.xyz"
+  },
+  {
+    "ParameterKey": "SinglePageApplication",
+    "ParameterValue": "true"
+  },
+  {
+    "ParameterKey": "LambdaRedeploymentToggle",
+    "ParameterValue": "A"
+  },
+  {
+    "ParameterKey": "LambdaCodeVersion",
+    "ParameterValue": "2019-07-27"
+  }
+]
