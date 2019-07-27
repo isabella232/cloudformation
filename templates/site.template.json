@@ -45,7 +45,6 @@
     "LambdaCodeVersion": {
       "Type": "String",
       "AllowedPattern": "^[^\"]+$",
-      "Default": "",
       "Description": "An arbitrary string used to modify the resulting lambda code to produce an insignificantly different lambda version code hash. Recommend date in ISO format, e.g. 2019-07-27"
     }
   },
