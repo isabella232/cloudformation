@@ -32,6 +32,15 @@
       ],
       "Default": "true",
       "Description": "Whether the application is a SPA-controls whether 404 is rerouted to 404.html with 200 status code or index.html"
+    },
+    "LambdaRedeploymentToggle": {
+      "Type": "String",
+      "AllowedValues": [
+        "A",
+        "B"
+      ],
+      "Default": "A",
+      "Description": "Toggle this parameter between A/B to redeploy the latest version of the lambda to CloudFront, e.g. to effect a header change"
     }
   },
   "Conditions": {
@@ -41,6 +50,22 @@
           "Ref": "SinglePageApplication"
         },
         "true"
+      ]
+    },
+    "LambdaToggleA": {
+      "Fn::Equals": [
+        {
+          "Ref": "LambdaRedeploymentToggle"
+        },
+        "A"
+      ]
+    },
+    "LambdaToggleB": {
+      "Fn::Equals": [
+        {
+          "Ref": "LambdaRedeploymentToggle"
+        },
+        "B"
       ]
     }
   },
@@ -159,8 +184,22 @@
         }
       }
     },
-    "AddSecurityHeadersLambdaVersion20190718A": {
+    "AddSecurityHeadersLambdaVersionA": {
       "Type": "AWS::Lambda::Version",
+      "Condition": "LambdaToggleA",
+      "Properties": {
+        "Description": "The deployed version of the lambda",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AddSecurityHeadersLambda",
+            "Arn"
+          ]
+        }
+      }
+    },
+    "AddSecurityHeadersLambdaVersionB": {
+      "Type": "AWS::Lambda::Version",
+      "Condition": "LambdaToggleB",
       "Properties": {
         "Description": "The deployed version of the lambda",
         "FunctionName": {
@@ -459,7 +498,15 @@
               {
                 "EventType": "origin-response",
                 "LambdaFunctionARN": {
-                  "Ref": "AddSecurityHeadersLambdaVersion20190718A"
+                  "Fn::If": [
+                    "LambdaToggleA",
+                    {
+                      "Ref": "AddSecurityHeadersLambdaVersionA"
+                    },
+                    {
+                      "Ref": "AddSecurityHeadersLambdaVersionB"
+                    }
+                  ]
                 }
               }
             ],

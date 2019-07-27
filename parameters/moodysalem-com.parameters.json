@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "ContentSecurityPolicy",
+    "ParameterValue": "frame-ancestors 'none'"
+  },
+  {
+    "ParameterKey": "XFrameOptions",
+    "ParameterValue": "deny"
+  },
+  {
+    "ParameterKey": "SiteDomainName",
+    "ParameterValue": "moodysalem.com"
+  },
+  {
+    "ParameterKey": "SinglePageApplication",
+    "ParameterValue": "false"
+  },
+  {
+    "ParameterKey": "LambdaRedeploymentToggle",
+    "ParameterValue": "A"
+  }
+]

@@ -10,5 +10,13 @@
   {
     "ParameterKey": "SiteDomainName",
     "ParameterValue": "ethvault.xyz"
+  },
+  {
+    "ParameterKey": "SinglePageApplication",
+    "ParameterValue": "true"
+  },
+  {
+    "ParameterKey": "LambdaRedeploymentToggle",
+    "ParameterValue": "A"
   }
 ]

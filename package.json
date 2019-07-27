@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "CloudFormation templates for Ethvault infrastructure",
   "scripts": {
-    "deploy-site": "./scripts/deploy-site.sh",
-    "deploy-embedded-wallet": "./scripts/deploy-embedded-wallet.sh"
+    "deploy:ethvault-xyz": "./scripts/deploy-site.sh ethvault-xyz",
+    "deploy:embedded-wallet": "./scripts/deploy-site.sh wallet-ethvault-xyz",
+    "deploy:moodysalem-com": "./scripts/deploy-site.sh moodysalem-com"
   },
   "files": [
     "templates"

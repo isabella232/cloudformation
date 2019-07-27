@@ -10,5 +10,13 @@
   {
     "ParameterKey": "SiteDomainName",
     "ParameterValue": "wallet.ethvault.xyz"
+  },
+  {
+    "ParameterKey": "SinglePageApplication",
+    "ParameterValue": "true"
+  },
+  {
+    "ParameterKey": "LambdaRedeploymentToggle",
+    "ParameterValue": "A"
   }
 ]
