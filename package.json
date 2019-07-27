@@ -1,12 +1,15 @@
 {
   "name": "@ethvault/cloudformation",
   "private": true,
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "CloudFormation templates for Ethvault infrastructure",
   "scripts": {
     "deploy-site": "./scripts/deploy-site.sh",
     "deploy-embedded-wallet": "./scripts/deploy-embedded-wallet.sh"
   },
+  "files": [
+    "templates"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ethvault/cloudformation.git"
@@ -15,6 +18,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ethvault/cloudformation/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "homepage": "https://github.com/ethvault/cloudformation#readme"
 }
