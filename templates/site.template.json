@@ -309,6 +309,9 @@
           "Status": "Enabled"
         },
         "AccessControl": "Private",
+        "WebsiteConfiguration": {
+          "IndexDocument": "index.html"
+        },
         "Tags": [
           {
             "Key": "Template",
