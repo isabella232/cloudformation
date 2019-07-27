@@ -6,7 +6,8 @@
     "deploy:ethvault-xyz": "./scripts/deploy-site.sh ethvault-xyz",
     "deploy:wallet-ethvault-xyz": "./scripts/deploy-site.sh wallet-ethvault-xyz",
     "deploy:moodysalem-com": "./scripts/deploy-site.sh moodysalem-com",
-    "deploy:makerdao-cdp-apps-ethvault-xyz": "./scripts/deploy-site.sh makerdao-cdp-apps-ethvault-xyz"
+    "deploy:makerdao-cdp-apps-ethvault-xyz": "./scripts/deploy-site.sh makerdao-cdp-apps-ethvault-xyz",
+    "deploy:myetherwallet-apps-ethvault-xyz": "./scripts/deploy-site.sh myetherwallet-apps-ethvault-xyz"
   },
   "files": [
     "templates"
