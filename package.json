@@ -1,6 +1,5 @@
 {
   "name": "@ethvault/cloudformation",
-  "private": true,
   "version": "1.0.0",
   "description": "CloudFormation templates for Ethvault infrastructure",
   "scripts": {
