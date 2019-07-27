@@ -23,6 +23,25 @@
       "AllowedPattern": "^[^\"]+$",
       "Default": "default-src '*'",
       "Description": "The value of the Content-Security-Policy header to be sent in the response."
+    },
+    "SinglePageApplication": {
+      "Type": "String",
+      "AllowedValues": [
+        "true",
+        "false"
+      ],
+      "Default": "true",
+      "Description": "Whether the application is a SPA-controls whether 404 is rerouted to 404.html with 200 status code or index.html"
+    }
+  },
+  "Conditions": {
+    "IsSinglePageApplication": {
+      "Fn::Equals": [
+        {
+          "Ref": "SinglePageApplication"
+        },
+        "true"
+      ]
     }
   },
   "Outputs": {
@@ -367,14 +386,27 @@
           }
         ],
         "DistributionConfig": {
-          "CustomErrorResponses": [
-            {
-              "ResponseCode": 200,
-              "ErrorCode": 404,
-              "ErrorCachingMinTTL": 0,
-              "ResponsePagePath": "/"
-            }
-          ],
+          "CustomErrorResponses": {
+            "Fn::If": [
+              "IsSinglePageApplication",
+              [
+                {
+                  "ResponseCode": 200,
+                  "ErrorCode": 404,
+                  "ErrorCachingMinTTL": 0,
+                  "ResponsePagePath": "/"
+                }
+              ],
+              [
+                {
+                  "ResponseCode": 404,
+                  "ErrorCode": 404,
+                  "ErrorCachingMinTTL": 0,
+                  "ResponsePagePath": "/404.html"
+                }
+              ]
+            ]
+          },
           "Comment": {
             "Ref": "SiteDomainName"
           },
