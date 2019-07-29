@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "SiteDomainName",
-    "ParameterValue": "makerdao-cdp.apps.myethvault.com"
+    "ParameterValue": "makerdao-scd-cdp.apps.myethvault.com"
   },
   {
     "ParameterKey": "SinglePageApplication",

@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "SiteDomainName",
-    "ParameterValue": "wallet.myethvault.com"
+    "ParameterValue": "wallet.apps.myethvault.com"
   },
   {
     "ParameterKey": "SinglePageApplication",
