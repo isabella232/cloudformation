@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "CloudFormation templates for Ethvault infrastructure",
   "scripts": {
-    "deploy:myethvault-com": "./scripts/deploy-site.sh myethvault-com",
-    "deploy:wallet-myethvault-com": "./scripts/deploy-site.sh wallet-myethvault-com",
-    "deploy:moodysalem-com": "./scripts/deploy-site.sh moodysalem-com",
-    "deploy:makerdao-cdp-apps-myethvault-com": "./scripts/deploy-site.sh makerdao-cdp-apps-myethvault-com",
-    "deploy:uniswap-myethvault-com": "./scripts/deploy-site.sh uniswap-apps-myethvault-com"
+    "deploy:myethvault-site": "./scripts/deploy-site.sh myethvault-site",
+    "deploy:myethvault-wallet": "./scripts/deploy-site.sh myethvault-wallet",
+    "deploy:moodysalem-blog": "./scripts/deploy-site.sh moodysalem-blog",
+    "deploy:makerdao-scd-cdp-portal": "./scripts/deploy-site.sh makerdao-scd-cdp-portal",
+    "deploy:uniswap": "./scripts/deploy-site.sh uniswap-exchange"
   },
   "files": [
     "templates"
