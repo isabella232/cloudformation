@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "ContentSecurityPolicy",
-    "ParameterValue": "frame-ancestors https://ethvault.xyz http://localhost:*"
+    "ParameterValue": "frame-ancestors https://myethvault.com http://localhost:*"
   },
   {
     "ParameterKey": "XFrameOptions",
@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "SiteDomainName",
-    "ParameterValue": "myetherwallet.apps.ethvault.xyz"
+    "ParameterValue": "makerdao-cdp.apps.myethvault.com"
   },
   {
     "ParameterKey": "SinglePageApplication",

@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "ContentSecurityPolicy",
-    "ParameterValue": "default-src https: data:; frame-ancestors ethvault.xyz http://localhost:*; script-src 'self'; style-src https: data: 'unsafe-inline'"
+    "ParameterValue": "default-src https: data:; frame-ancestors https://myethvault.com http://localhost:*; script-src 'self'; style-src https: data: 'unsafe-inline'"
   },
   {
     "ParameterKey": "XFrameOptions",
@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "SiteDomainName",
-    "ParameterValue": "wallet.ethvault.xyz"
+    "ParameterValue": "wallet.myethvault.com"
   },
   {
     "ParameterKey": "SinglePageApplication",
