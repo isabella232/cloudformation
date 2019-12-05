@@ -5,7 +5,7 @@
   "scripts": {
     "deploy:myethvault-site": "./scripts/deploy-site.sh myethvault-site",
     "deploy:myethvault-wallet": "./scripts/deploy-site.sh myethvault-wallet",
-    "deploy:moodysalem-blog": "./scripts/deploy-site.sh moodysalem-blog",
+    "deploy:moodysalem-com": "./scripts/deploy-site.sh moodysalem-com",
     "deploy:makerdao-scd-cdp-portal": "./scripts/deploy-site.sh makerdao-scd-cdp-portal",
     "deploy:uniswap-exchange": "./scripts/deploy-site.sh uniswap-exchange"
   },
